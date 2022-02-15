@@ -3,21 +3,25 @@ const dotenv = require('dotenv');
 
 let recievedUpdates = 0;
 let recievedHeartBeats = 0;
+let firstUpdate;
 let previousUpdateTime;
 let lastUpdateTime;
+let firstHeartBeat;
 let previousHeartBeatTime;
 let lastHeartBeatTime;
 
 const onExit = () => {
-    console.log('total received updates: ' + recievedUpdates);
+    console.log('\nfist message: ' + firstUpdate + '\n');
+    console.log('total received updates: ' + recievedUpdates + '\n');
     
     if (lastUpdateTime && previousUpdateTime)
-        console.log('last update: ' + lastUpdateTime + ' \n previous update ' + previousUpdateTime);
-    
-        console.log('total received heartBeats ' + recievedHeartBeats);
+        console.log('last update: ' + lastUpdateTime + '\n previous update ' + previousUpdateTime + '\n');
+
+    console.log('first heartBeat: ' + firstHeartBeat + '\n');
+    console.log('total received heartBeats ' + recievedHeartBeats + '\n');
     
     if (lastHeartBeatTime && previousHeartBeatTime)
-        console.log('last heartbeat: ' + lastHeartBeatTime + ' \n previous heartbeat ' + previousHeartBeatTime);
+        console.log('last heartbeat: ' + lastHeartBeatTime + '\nprevious heartbeat ' + previousHeartBeatTime + '\n');
 }
 
 dotenv.config({ path: "./test.env" });
@@ -53,6 +57,9 @@ const processHeartBeat = (event, eventName) => {
     recievedHeartBeats++;
     previousHeartBeatTime = lastHeartBeatTime;
     lastHeartBeatTime = new Date();
+
+    if (!firstHeartBeat)
+        firstHeartBeat = new Date();
 }
 
 const processUpdate = (event, eventName) => {
@@ -60,6 +67,9 @@ const processUpdate = (event, eventName) => {
     recievedUpdates++;
     previousUpdateTime = lastUpdateTime;
     lastUpdateTime = new Date();
+
+    if(!firstUpdate)
+       firstUpdate = new Date();
 };
 
 
