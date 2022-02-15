@@ -1,0 +1,16 @@
+{
+  "name": "signalrjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "client.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "listen": "node client.js"
+  },
+  "author": "m.proniaiev",
+  "license": "MIT",
+  "dependencies": {
+    "@microsoft/signalr": "^6.0.2",
+    "dotenv": "^16.0.0"
+  }
+}
