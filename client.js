@@ -1,4 +1,5 @@
 const signalr = require('@microsoft/signalr');
+var msgpc = require("@microsoft/signalr-protocol-msgpack");
 const dotenv = require('dotenv');
 
 let recievedUpdates = 0;
@@ -11,11 +12,11 @@ let previousHeartBeatTime;
 let lastHeartBeatTime;
 
 const onExit = () => {
-    console.log('\nfist message: ' + firstUpdate + '\n');
+    console.log('\nfirst message: ' + firstUpdate + '\n');
     console.log('total received updates: ' + recievedUpdates + '\n');
     
     if (lastUpdateTime && previousUpdateTime)
-        console.log('last update: ' + lastUpdateTime + '\n previous update ' + previousUpdateTime + '\n');
+        console.log('last update: ' + lastUpdateTime + '\nprevious update ' + previousUpdateTime + '\n');
 
     console.log('first heartBeat: ' + firstHeartBeat + '\n');
     console.log('total received heartBeats ' + recievedHeartBeats + '\n');
@@ -25,14 +26,21 @@ const onExit = () => {
 }
 
 dotenv.config({ path: "./test.env" });
-const connection = new signalr.HubConnectionBuilder()
+let builder = new signalr.HubConnectionBuilder()
 .configureLogging(signalr.LogLevel.Trace)
 .withUrl(process.env.URL + `?${process.env.HEADER_NAME}=` + process.env.HEADER_VALUE, {
     skipNegotiation: true,
     transport: signalr.HttpTransportType.WebSockets
 })
-.withAutomaticReconnect([0, 1, 3, 5])
-.build();
+.withAutomaticReconnect([0, 1, 3, 5]);
+
+if(process.env.USE_MSGPC == 'true')
+{
+    builder = builder.withHubProtocol(new msgpc.MessagePackHubProtocol());
+    console.log('using message pack!');
+}
+
+const connection = builder.build();
 
 connection.onclose(function (e) {
     if (e) {
