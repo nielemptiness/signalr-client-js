@@ -1,11 +1,11 @@
 const processEvt = (event, eventName) => {
-    console.log('got update for event ' + eventName);
+    console.log('\ngot update for event ' + eventName + '\n');
 
     if (process.env.LOG_MESSAGES == 'true') {
         const log = JSON.stringify(event);
         console.debug(log);
         if (log === '[]') {
-            console.warn('THIS WAS THE END OF BATCH SNAPHOT');
+            console.warn('\nTHIS WAS THE END OF BATCH SNAPHOT');
         }
     }
 };
@@ -40,7 +40,7 @@ const processUpdate = (event, eventName) => {
     }
     
     if (process.env.SPLIT_SNAPSHOT_SIZE == '0' && recievedUpdates === 1) {
-        console.warn('THIS WAS SNAPSHOT');
+        console.warn('\nTHIS WAS SNAPSHOT');
     }
 };
 

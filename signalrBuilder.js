@@ -17,7 +17,7 @@ const connetionUrl = () => {
 
 const buildClient = () => {
     let builder = new signalr.HubConnectionBuilder()
-    .configureLogging(signalr.LogLevel.Trace)
+    .configureLogging(signalr.LogLevel.Debug)
     .withUrl(connetionUrl(), {
         skipNegotiation: true,
         transport: signalr.HttpTransportType.WebSockets

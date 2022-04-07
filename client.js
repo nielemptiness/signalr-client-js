@@ -10,10 +10,10 @@ const connection = builder.build();
 
 connection.onclose(function (e) {
     if (e) {
-        console.error('error occured: ' + e)
+        console.error('\nerror occured: ' + e)
     }
     else {
-        console.info('Disconnected');
+        console.info('\nDisconnected');
     }
     onExit();
 });
@@ -22,7 +22,7 @@ connection.on(heartBeat, (evt) => processHeartBeat(evt, heartBeat));
 connection.on(MatchUnBooked, (evt) => processEvt(evt, MatchUnBooked) )
 
 connection.start()
-           .then(() => console.info(' connected successfully! \n'))
+           .then(() => console.info('\nconnected successfully! \n'))
            .catch(e => console.error(e));
 
 process.on("SIGINT", () => {
